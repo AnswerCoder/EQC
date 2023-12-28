@@ -1,0 +1,7 @@
+Application Version: ${eqc.version}
+Spring Boot Version: ${spring-boot.version}
+  ____    ______  ____
+_/ __ \  / ____/_/ ___\
+\  ___/ < <_|  |\  \___
+ \___  > \__   | \___  >
+     \/     |__|     \/
