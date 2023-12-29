@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.eqc.system.mapper.EquipmentConsumablesMapper">
+
+    <resultMap type="com.eqc.system.domain.EquipmentConsumables" id="EquipmentConsumablesResult">
+        <result property="consumableId" column="consumable_id"/>
+        <result property="equipmentId" column="equipment_id"/>
+        <result property="consumableName" column="consumable_name"/>
+        <result property="consumableNo" column="consumable_no"/>
+        <result property="activationTime" column="activation_time"/>
+        <result property="validity" column="validity"/>
+        <result property="validityUint" column="validity_uint"/>
+        <result property="chargeUser" column="charge_user"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+
+</mapper>
