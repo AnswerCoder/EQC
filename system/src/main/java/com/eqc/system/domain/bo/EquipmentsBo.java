@@ -36,31 +36,31 @@ public class EquipmentsBo extends BaseEntity {
     /**
      * 设备序列号
      */
-    @NotBlank(message = "设备序列号不能为空", groups = { AddGroup.class, EditGroup.class })
+    //@NotBlank(message = "设备序列号不能为空", groups = { AddGroup.class, EditGroup.class })
     private String equipmentNo;
 
     /**
      * 设备供应商
      */
-    @NotBlank(message = "设备供应商不能为空", groups = { AddGroup.class, EditGroup.class })
+    //@NotBlank(message = "设备供应商不能为空", groups = { AddGroup.class, EditGroup.class })
     private String equipmentSupplier;
 
     /**
      * 所属科室
      */
-    @NotBlank(message = "所属科室不能为空", groups = { AddGroup.class, EditGroup.class })
+    //@NotBlank(message = "所属科室不能为空", groups = { AddGroup.class, EditGroup.class })
     private String department;
 
     /**
      * 所在位置
      */
-    @NotBlank(message = "所在位置不能为空", groups = { AddGroup.class, EditGroup.class })
+    //@NotBlank(message = "所在位置不能为空", groups = { AddGroup.class, EditGroup.class })
     private String location;
 
     /**
      * 备注
      */
-    @NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
+    //@NotBlank(message = "备注不能为空", groups = { AddGroup.class, EditGroup.class })
     private String remark;
 
 

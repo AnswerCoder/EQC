@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import com.eqc.common.core.domain.entity.SysDictType;
+import com.eqc.system.domain.Equipments;
 import lombok.RequiredArgsConstructor;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.*;
@@ -104,5 +106,14 @@ public class EquipmentsController extends BaseController {
     public R<Void> remove(@NotEmpty(message = "主键不能为空")
                           @PathVariable Long[] equipmentIds) {
         return toAjax(iEquipmentsService.deleteWithValidByIds(Arrays.asList(equipmentIds), true));
+    }
+
+    /**
+     * 获取设备选择框列表
+     */
+    @GetMapping("/optionSelect")
+    public R<List<EquipmentsVo>> optionSelect() {
+        List<EquipmentsVo> equipmentAll = iEquipmentsService.queryList(new EquipmentsBo());
+        return R.ok(equipmentAll);
     }
 }

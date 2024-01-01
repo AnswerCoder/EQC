@@ -267,7 +267,13 @@ insert into sys_menu values('1602', '文件下载', '118', '3', '#', '', '', 1, 
 insert into sys_menu values('1603', '文件删除', '118', '4', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:remove',       '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1604', '配置添加', '118', '5', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:add',          '#', 'admin', sysdate(), '', null, '');
 insert into sys_menu values('1605', '配置编辑', '118', '6', '#', '', '', 1, 0, 'F', '0', '0', 'system:oss:edit',         '#', 'admin', sysdate(), '', null, '');
-
+-- 设备管理菜单
+INSERT INTO sys_menu VALUES (1741093982624108545, '设备管理', 0, 0, 'equipments', 'equipments/index', NULL, 1, 0, 'C', '0', '0', 'equipments:list', 'example', 'admin', sysdate(), '', NULL, '');
+INSERT INTO sys_menu VALUES (1741094806775484418, '设备查询', 1741093982624108545, 1, '#', '', NULL, 1, 0, 'F', '0', '0', 'equipments:query', '#', 'admin', sysdate(), '', NULL, '');
+INSERT INTO sys_menu VALUES (1741094806775484419, '设备新增', 1741093982624108545, 2, '#', '', NULL, 1, 0, 'F', '0', '0', 'equipments:add', '#', 'admin', sysdate(), '', NULL, '');
+INSERT INTO sys_menu VALUES (1741094806775484420, '设备修改', 1741093982624108545, 3, '#', '', NULL, 1, 0, 'F', '0', '0', 'equipments:edit', '#', 'admin', sysdate(), '', NULL, '');
+INSERT INTO sys_menu VALUES (1741094806775484421, '设备删除', 1741093982624108545, 4, '#', '', NULL, 1, 0, 'F', '0', '0', 'equipments:remove', '#', 'admin', sysdate(), '', NULL, '');
+INSERT INTO sys_menu VALUES (1741094806775484422, '设备导出', 1741093982624108545, 5, '#', '', NULL, 1, 0, 'F', '0', '0', 'equipments:export', '#', 'admin', sysdate(), '', NULL, '');
 
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
