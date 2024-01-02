@@ -49,7 +49,7 @@ public class EquipmentsBo extends BaseEntity {
      * 所属科室
      */
     //@NotBlank(message = "所属科室不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String department;
+    private Long department;
 
     /**
      * 所在位置

@@ -42,7 +42,7 @@ public class Equipments extends BaseEntity {
     /**
      * 所属科室
      */
-    private String department;
+    private Long department;
     /**
      * 所在位置
      */

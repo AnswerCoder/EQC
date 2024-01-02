@@ -57,7 +57,7 @@ public class EquipmentConsumablesVo implements Serializable {
      * 使用期效
      */
     @ExcelProperty(value = "使用期效")
-    private Integer validity;
+    private Long validity;
 
     /**
      * 使用期效单位
@@ -75,7 +75,7 @@ public class EquipmentConsumablesVo implements Serializable {
      * 状态 0正在使用，1已报废 2未使用过
      */
     @ExcelProperty(value = "状态 0正在使用，1已报废 2未使用过")
-    private Integer status;
+    private Long status;
 
     /**
      * 备注

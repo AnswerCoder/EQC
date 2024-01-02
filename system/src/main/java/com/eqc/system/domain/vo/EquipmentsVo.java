@@ -1,5 +1,6 @@
 package com.eqc.system.domain.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.eqc.common.annotation.ExcelDictFormat;
@@ -48,8 +49,14 @@ public class EquipmentsVo implements Serializable {
     /**
      * 所属科室
      */
+    @ExcelIgnore
+    private Long department;
+
+    /**
+     * 所属科室
+     */
     @ExcelProperty(value = "所属科室")
-    private String department;
+    private String departmentName;
 
     /**
      * 所在位置

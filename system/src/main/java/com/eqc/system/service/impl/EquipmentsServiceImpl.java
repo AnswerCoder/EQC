@@ -1,12 +1,15 @@
 package com.eqc.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.eqc.common.core.domain.entity.SysDept;
+import com.eqc.common.utils.StreamUtils;
 import com.eqc.common.utils.StringUtils;
 import com.eqc.common.core.page.TableDataInfo;
 import com.eqc.common.core.domain.PageQuery;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.eqc.system.service.ISysDeptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.eqc.system.domain.bo.EquipmentsBo;
@@ -30,6 +33,7 @@ import java.util.Collection;
 public class EquipmentsServiceImpl implements IEquipmentsService {
 
     private final EquipmentsMapper baseMapper;
+    private final ISysDeptService sysDeptService;
 
     /**
      * 查询设备
@@ -46,7 +50,14 @@ public class EquipmentsServiceImpl implements IEquipmentsService {
     public TableDataInfo<EquipmentsVo> queryPageList(EquipmentsBo bo, PageQuery pageQuery) {
         LambdaQueryWrapper<Equipments> lqw = buildQueryWrapper(bo);
         Page<EquipmentsVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
+        Map<Long, String> deptIdNameMap = getDeptIdNameMap();
+        result.getRecords().forEach(equipmentsVo -> equipmentsVo.setDepartmentName(deptIdNameMap.getOrDefault(equipmentsVo.getDepartment(),null)));
         return TableDataInfo.build(result);
+    }
+
+    private Map<Long,String> getDeptIdNameMap() {
+        List<SysDept> sysDepts = sysDeptService.selectDeptList(new SysDept());
+        return StreamUtils.toMap(sysDepts, SysDept::getDeptId, SysDept::getDeptName);
     }
 
     /**
@@ -55,7 +66,10 @@ public class EquipmentsServiceImpl implements IEquipmentsService {
     @Override
     public List<EquipmentsVo> queryList(EquipmentsBo bo) {
         LambdaQueryWrapper<Equipments> lqw = buildQueryWrapper(bo);
-        return baseMapper.selectVoList(lqw);
+        List<EquipmentsVo> equipmentsVos = baseMapper.selectVoList(lqw);
+        Map<Long, String> deptIdNameMap = getDeptIdNameMap();
+        equipmentsVos.forEach(equipmentsVo -> equipmentsVo.setDepartmentName(deptIdNameMap.getOrDefault(equipmentsVo.getDepartment(),null)));
+        return equipmentsVos;
     }
 
     private LambdaQueryWrapper<Equipments> buildQueryWrapper(EquipmentsBo bo) {
@@ -64,7 +78,7 @@ public class EquipmentsServiceImpl implements IEquipmentsService {
         lqw.like(StringUtils.isNotBlank(bo.getEquipmentName()), Equipments::getEquipmentName, bo.getEquipmentName());
         lqw.eq(StringUtils.isNotBlank(bo.getEquipmentNo()), Equipments::getEquipmentNo, bo.getEquipmentNo());
         lqw.eq(StringUtils.isNotBlank(bo.getEquipmentSupplier()), Equipments::getEquipmentSupplier, bo.getEquipmentSupplier());
-        lqw.eq(StringUtils.isNotBlank(bo.getDepartment()), Equipments::getDepartment, bo.getDepartment());
+        lqw.eq(bo.getDepartment()!=null, Equipments::getDepartment, bo.getDepartment());
         lqw.eq(StringUtils.isNotBlank(bo.getLocation()), Equipments::getLocation, bo.getLocation());
         return lqw;
     }
