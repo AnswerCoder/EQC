@@ -75,7 +75,7 @@ public class EquipmentConsumablesVo implements Serializable {
      * 状态 0正在使用，1已报废 2未使用过
      */
     @ExcelProperty(value = "状态 0正在使用，1已报废 2未使用过")
-    private Long status;
+    private String status;
 
     /**
      * 备注

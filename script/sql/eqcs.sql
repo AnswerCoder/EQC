@@ -29,7 +29,7 @@ CREATE TABLE `equipment_consumables` (
   `validity` int DEFAULT NULL COMMENT '使用期效',
   `validity_uint` varchar(16) DEFAULT '' COMMENT '使用期效单位',
   `charge_user` bigint DEFAULT NULL COMMENT '负责人，到期后通知其更换',
-  `status` int DEFAULT NULL COMMENT '状态 0正在使用，1已报废 2未使用过',
+  `status` varchar(16) DEFAULT '' COMMENT '状态 0正在使用，1已报废 2未使用过',
   `create_by` varchar(64) DEFAULT '' COMMENT '创建者',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) DEFAULT '' COMMENT '更新者',

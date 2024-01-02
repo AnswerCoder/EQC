@@ -75,7 +75,7 @@ public class EquipmentConsumablesBo extends BaseEntity {
      * 状态 0正在使用，1已报废 2未使用过
      */
     @NotNull(message = "状态 0正在使用，1已报废 2未使用过不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Long status;
+    private String status;
 
     /**
      * 备注
