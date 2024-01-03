@@ -42,7 +42,7 @@ public class EquipmentConsumablesController extends BaseController {
     /**
      * 查询设备耗材列表
      */
-    @SaCheckPermission("equipment:consumables:list")
+    @SaCheckPermission("equipments:list")
     @GetMapping("/list")
     public TableDataInfo<EquipmentConsumablesVo> list(EquipmentConsumablesBo bo, PageQuery pageQuery) {
         return iEquipmentConsumablesService.queryPageList(bo, pageQuery);
@@ -51,7 +51,7 @@ public class EquipmentConsumablesController extends BaseController {
     /**
      * 导出设备耗材列表
      */
-    @SaCheckPermission("equipment:consumables:export")
+    @SaCheckPermission("equipments:export")
     @Log(title = "设备耗材", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(EquipmentConsumablesBo bo, HttpServletResponse response) {
@@ -64,7 +64,7 @@ public class EquipmentConsumablesController extends BaseController {
      *
      * @param consumableId 主键
      */
-    @SaCheckPermission("equipment:consumables:query")
+    @SaCheckPermission("equipments:query")
     @GetMapping("/{consumableId}")
     public R<EquipmentConsumablesVo> getInfo(@NotNull(message = "主键不能为空")
                                      @PathVariable Long consumableId) {
@@ -74,7 +74,7 @@ public class EquipmentConsumablesController extends BaseController {
     /**
      * 新增设备耗材
      */
-    @SaCheckPermission("equipment:consumables:add")
+    @SaCheckPermission("equipments:add")
     @Log(title = "设备耗材", businessType = BusinessType.INSERT)
     @RepeatSubmit()
     @PostMapping()
@@ -85,7 +85,7 @@ public class EquipmentConsumablesController extends BaseController {
     /**
      * 修改设备耗材
      */
-    @SaCheckPermission("equipment:consumables:edit")
+    @SaCheckPermission("equipments:edit")
     @Log(title = "设备耗材", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
@@ -98,7 +98,7 @@ public class EquipmentConsumablesController extends BaseController {
      *
      * @param consumableIds 主键串
      */
-    @SaCheckPermission("equipment:consumables:remove")
+    @SaCheckPermission("equipments:remove")
     @Log(title = "设备耗材", businessType = BusinessType.DELETE)
     @DeleteMapping("/{consumableIds}")
     public R<Void> remove(@NotEmpty(message = "主键不能为空")
