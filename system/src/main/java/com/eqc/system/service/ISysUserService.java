@@ -25,6 +25,13 @@ public interface ISysUserService {
     List<SysUser> selectUserList(SysUser user);
 
     /**
+     * 查询所有用户
+     * 不做数据权限范围控制 用于下拉列表的展示
+     * @return 用户集合信息
+     */
+    List<SysUser> selectUserOptions();
+
+    /**
      * 根据条件分页查询已分配用户角色列表
      *
      * @param user 用户信息

@@ -1,6 +1,7 @@
 package com.eqc.system.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.eqc.common.annotation.DataColumn;
 import com.eqc.common.annotation.DataPermission;
@@ -37,4 +38,12 @@ public interface SysDeptMapper extends BaseMapperPlus<SysDeptMapper, SysDept, Sy
      */
     List<Long> selectDeptListByRoleId(@Param("roleId") Long roleId, @Param("deptCheckStrictly") boolean deptCheckStrictly);
 
+    /**
+     * 查询部门树结构信息
+     * (不做数据权限校验，查询全部部门，用于下拉列表展示)
+     *
+     * @param queryWrapper 查询条件
+     * @return 部门信息集合
+     */
+    List<SysDept> selectDeptOption(@Param(Constants.WRAPPER) Wrapper<SysDept> queryWrapper);
 }

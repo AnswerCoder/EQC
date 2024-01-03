@@ -253,10 +253,18 @@ public class SysUserController extends BaseController {
     }
 
     /**
+     * 获取部门树列表
+     */
+    @GetMapping("/deptTreeOption")
+    public R<List<Tree<Long>>> deptTreeOption() {
+        return R.ok(deptService.selectDeptTreeOption());
+    }
+
+    /**
      * 获取用户列表
      */
     @GetMapping("/optionsSelect")
     public R<List<SysUser>> userOptions() {
-        return R.ok(userService.selectUserList(new SysUser()));
+        return R.ok(userService.selectUserOptions());
     }
 }

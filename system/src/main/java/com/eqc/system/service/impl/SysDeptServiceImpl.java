@@ -306,4 +306,32 @@ public class SysDeptServiceImpl implements ISysDeptService, DeptService {
         return baseMapper.deleteById(deptId);
     }
 
+    /**
+     * 查询所有部门
+     * (不做数据权限校验，查询全部部门，用于下拉列表展示)
+     *
+     * @return 部门信息集合
+     */
+    @Override
+    public List<SysDept> selectDeptOption() {
+        LambdaQueryWrapper<SysDept> lqw = new LambdaQueryWrapper<>();
+        // 只查询未禁用部门
+        lqw.eq(SysDept::getDelFlag, "0")
+            .eq(SysDept::getStatus, UserConstants.DEPT_NORMAL)
+            .orderByAsc(SysDept::getParentId)
+            .orderByAsc(SysDept::getOrderNum);
+        return baseMapper.selectDeptOption(lqw);
+    }
+
+    /**
+     * 查询部门树结构信息
+     * (不做数据权限校验，查询全部部门，用于下拉列表展示)
+     *
+     * @return 部门树信息集合
+     */
+    @Override
+    public List<Tree<Long>> selectDeptTreeOption() {
+        List<SysDept> depts = this.selectDeptOption();
+        return buildDeptTreeSelect(depts);
+    }
 }

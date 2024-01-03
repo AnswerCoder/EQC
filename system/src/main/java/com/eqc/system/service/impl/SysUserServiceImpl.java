@@ -71,6 +71,17 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
         return baseMapper.selectUserList(this.buildQueryWrapper(user));
     }
 
+    /**
+     * 查询所有用户
+     * 不做数据权限范围控制 用于下拉列表的展示
+     *
+     * @return 用户集合信息
+     */
+    @Override
+    public List<SysUser> selectUserOptions() {
+        return baseMapper.selectList();
+    }
+
     private Wrapper<SysUser> buildQueryWrapper(SysUser user) {
         Map<String, Object> params = user.getParams();
         QueryWrapper<SysUser> wrapper = Wrappers.query();

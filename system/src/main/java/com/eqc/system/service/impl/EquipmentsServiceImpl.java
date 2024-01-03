@@ -56,7 +56,7 @@ public class EquipmentsServiceImpl implements IEquipmentsService {
     }
 
     private Map<Long,String> getDeptIdNameMap() {
-        List<SysDept> sysDepts = sysDeptService.selectDeptList(new SysDept());
+        List<SysDept> sysDepts = sysDeptService.selectDeptOption();
         return StreamUtils.toMap(sysDepts, SysDept::getDeptId, SysDept::getDeptName);
     }
 
