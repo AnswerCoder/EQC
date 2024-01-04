@@ -46,4 +46,10 @@ public interface IEquipmentConsumablesService {
      * 校验并批量删除设备耗材信息
      */
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+
+    /**
+     * 设备到期提醒
+     */
+    void dueNotice();
+
 }

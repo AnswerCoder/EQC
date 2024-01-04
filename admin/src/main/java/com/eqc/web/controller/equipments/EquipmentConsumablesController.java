@@ -105,4 +105,14 @@ public class EquipmentConsumablesController extends BaseController {
                           @PathVariable Long[] consumableIds) {
         return toAjax(iEquipmentConsumablesService.deleteWithValidByIds(Arrays.asList(consumableIds), true));
     }
+
+    /**
+     * 耗材到期提醒定时任务
+     * @return
+     */
+    @PostMapping("/dueNoticeJob")
+    public R<Void> dueNotice(){
+        iEquipmentConsumablesService.dueNotice();
+        return R.ok();
+    }
 }

@@ -63,7 +63,14 @@ public class EquipmentConsumablesVo implements Serializable {
      * 使用期效单位
      */
     @ExcelProperty(value = "使用期效单位")
+    @ExcelDictFormat(dictType = "sys_time_unit")
     private String validityUint;
+
+    /**
+     * 到期时间
+     */
+    @ExcelProperty(value = "到期时间")
+    private Date dueTime;
 
     /**
      * 负责人，到期后通知其更换
@@ -74,7 +81,8 @@ public class EquipmentConsumablesVo implements Serializable {
     /**
      * 状态 0正在使用，1已报废 2未使用过
      */
-    @ExcelProperty(value = "状态 0正在使用，1已报废 2未使用过")
+    @ExcelProperty(value = "状态")
+    @ExcelDictFormat(dictType = "consumable_status")
     private String status;
 
     /**

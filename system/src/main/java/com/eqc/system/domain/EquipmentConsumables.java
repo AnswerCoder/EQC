@@ -54,6 +54,10 @@ public class EquipmentConsumables extends BaseEntity {
      */
     private String validityUint;
     /**
+     * 到期时间
+     */
+    private Date dueTime;
+    /**
      * 负责人，到期后通知其更换
      */
     private Long chargeUser;

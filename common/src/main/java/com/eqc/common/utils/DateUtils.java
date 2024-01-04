@@ -1,5 +1,6 @@
 package com.eqc.common.utils;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -164,5 +165,25 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         LocalDateTime localDateTime = LocalDateTime.of(temporalAccessor, LocalTime.of(0, 0, 0));
         ZonedDateTime zdt = localDateTime.atZone(ZoneId.systemDefault());
         return Date.from(zdt.toInstant());
+    }
+
+    /**
+     * 修改为一天的开始时间，例如：2020-02-02 00:00:00
+     */
+    public static Date beginOfDay(Date date){
+        if (date == null) {
+            return null;
+        }
+        return toDate(LocalDateTimeUtil.beginOfDay(LocalDateTimeUtil.of(date)));
+    }
+
+    /**
+     * 修改为一天的结束时间，例如：2020-02-02 23:59:59
+     */
+    public static Date endOfDay(Date date){
+        if (date == null) {
+            return null;
+        }
+        return toDate(LocalDateTimeUtil.endOfDay(LocalDateTimeUtil.of(date)));
     }
 }
