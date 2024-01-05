@@ -12,7 +12,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.eqc.common.utils.email.MailUtils;
 import com.eqc.system.domain.dto.ConsumableNoticeDto;
+import freemarker.template.Configuration;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.eqc.system.domain.bo.EquipmentConsumablesBo;
 import com.eqc.system.domain.vo.EquipmentConsumablesVo;
@@ -34,6 +36,9 @@ import java.util.*;
 public class EquipmentConsumablesServiceImpl implements IEquipmentConsumablesService {
 
     private final EquipmentConsumablesMapper baseMapper;
+
+    // 自动注入FreeMarker配置类,用户获取模板
+    private final Configuration configuration;
 
     /**
      * 查询设备耗材
@@ -159,6 +164,13 @@ public class EquipmentConsumablesServiceImpl implements IEquipmentConsumablesSer
         Date date = DateUtils.addDays(DateUtils.beginOfDay(DateUtils.getNowDate()), 7);
         List<ConsumableNoticeDto> consumableNotices = baseMapper.selectNoticeList(date);
         Map<Long, List<ConsumableNoticeDto>> userNoticeMap = StreamUtils.groupByKey(consumableNotices, ConsumableNoticeDto::getChargeUser);
-
+        userNoticeMap.forEach((userId, notices) -> {
+            ConsumableNoticeDto notice = notices.get(0);
+            String email = notice.getChargeUserEmail();
+            String chargeNickName = notice.getChargeNickName();
+            //TODO 构建html
+            // 自动注入FreeMarker配置类,用户获取模板
+            MailUtils.sendHtml(email, subject, "");
+        });
     }
 }
