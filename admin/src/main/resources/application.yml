@@ -136,6 +136,8 @@ security:
     # actuator 监控配置
     - /actuator
     - /actuator/**
+    # 定时任务调用接口
+    - /equipment/consumables/dueNoticeJob
 
 # MyBatisPlus配置
 # https://baomidou.com/config/
