@@ -79,7 +79,11 @@ public class SysUserServiceImpl implements ISysUserService, UserService {
      */
     @Override
     public List<SysUser> selectUserOptions() {
-        return baseMapper.selectList();
+        //当前非管理员登录，排除管理员
+        List<SysUser> sysUsers = baseMapper.selectList();
+        return StreamUtils.filter(sysUsers, (user ->
+            LoginHelper.isAdmin() || !user.isAdmin()
+        ));
     }
 
     private Wrapper<SysUser> buildQueryWrapper(SysUser user) {
