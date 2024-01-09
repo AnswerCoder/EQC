@@ -13,7 +13,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.eqc.common.utils.email.MailUtils;
 import com.eqc.system.domain.dto.ConsumableNoticeDto;
 import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.eqc.system.domain.bo.EquipmentConsumablesBo;
@@ -21,7 +24,9 @@ import com.eqc.system.domain.vo.EquipmentConsumablesVo;
 import com.eqc.system.domain.EquipmentConsumables;
 import com.eqc.system.mapper.EquipmentConsumablesMapper;
 import com.eqc.system.service.IEquipmentConsumablesService;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -31,13 +36,16 @@ import java.util.*;
  * @author yunpeng.zhang
  * @date 2023-12-29
  */
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class EquipmentConsumablesServiceImpl implements IEquipmentConsumablesService {
 
     private final EquipmentConsumablesMapper baseMapper;
 
-    // 自动注入FreeMarker配置类,用户获取模板
+    /**
+     * 自动注入FreeMarker配置类,用户获取模板
+     */
     private final Configuration configuration;
 
     /**
@@ -163,14 +171,37 @@ public class EquipmentConsumablesServiceImpl implements IEquipmentConsumablesSer
         String subject = "设备耗材即将到期提醒";
         Date date = DateUtils.addDays(DateUtils.beginOfDay(DateUtils.getNowDate()), 7);
         List<ConsumableNoticeDto> consumableNotices = baseMapper.selectNoticeList(date);
+        if (consumableNotices.isEmpty()){
+            log.warn("当前没有即将到期的耗材");
+            return;
+        }
         Map<Long, List<ConsumableNoticeDto>> userNoticeMap = StreamUtils.groupByKey(consumableNotices, ConsumableNoticeDto::getChargeUser);
         userNoticeMap.forEach((userId, notices) -> {
             ConsumableNoticeDto notice = notices.get(0);
             String email = notice.getChargeUserEmail();
             String chargeNickName = notice.getChargeNickName();
-            //TODO 构建html
+            //构建html
+            Map<String, Object> root = new HashMap<>();
+            root.put("nickName", chargeNickName);
+            root.put("dueConsumables", notices);
+            String content = buildMailContent(root, "consumableDueEmailTemp.ftl");
+            if (StringUtils.isEmpty(content)){
+                log.error("邮件内容构建失败，邮件未发送");
+                return;
+            }
             // 自动注入FreeMarker配置类,用户获取模板
-            MailUtils.sendHtml(email, subject, "");
+            MailUtils.sendHtml(email, subject, content);
         });
+    }
+
+    private String buildMailContent(Map<String, Object> root, String temp){
+        String content = null;
+        try {
+            Template template = configuration.getTemplate(temp);
+            content = FreeMarkerTemplateUtils.processTemplateIntoString(template, root);
+        } catch (IOException | TemplateException e) {
+            log.error("构建邮件内容报错",e);
+        }
+        return content;
     }
 }

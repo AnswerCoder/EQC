@@ -1,8 +1,13 @@
 package com.eqc.test;
 
+import com.eqc.system.service.IEquipmentConsumablesService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.annotation.Resource;
 
 /**
  * 断言单元测试案例
@@ -10,6 +15,7 @@ import org.junit.jupiter.api.Test;
  * @author Lion Li
  */
 @DisplayName("断言单元测试案例")
+@SpringBootTest
 public class AssertUnitTest {
 
     @DisplayName("测试 assertEquals 方法")
@@ -40,6 +46,14 @@ public class AssertUnitTest {
     public void testAssertNull() {
         Assertions.assertNull(null);
         Assertions.assertNotNull(null);
+    }
+
+    @Autowired
+    private IEquipmentConsumablesService consumablesService;
+
+    @Test
+    public void testDueConsumables() {
+        consumablesService.dueNotice();
     }
 
 }
