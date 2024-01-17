@@ -1,6 +1,7 @@
 package com.eqc.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.eqc.common.utils.DateUtils;
 import com.eqc.common.utils.StreamUtils;
@@ -11,7 +12,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.eqc.common.utils.email.MailUtils;
+import com.eqc.common.utils.spring.SpringUtils;
 import com.eqc.system.domain.dto.ConsumableNoticeDto;
+import com.eqc.system.service.ISysConfigService;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -163,14 +166,17 @@ public class EquipmentConsumablesServiceImpl implements IEquipmentConsumablesSer
     }
 
     /**
-     * 设备到期提醒 提前七天开始提醒
+     * 设备即将到期提醒 提前七天开始提醒,已过期的不再提醒
      */
     @Override
     public void dueNotice() {
+        //获取到期的耗材是否继续提醒
+        boolean isOverDueNotice = Convert.toBool(SpringUtils.getBean(ISysConfigService.class).selectConfigByKey("sys.consumable.overDueNotices"));
         //当前时间+7天
         String subject = "设备耗材即将到期提醒";
-        Date date = DateUtils.addDays(DateUtils.beginOfDay(DateUtils.getNowDate()), 7);
-        List<ConsumableNoticeDto> consumableNotices = baseMapper.selectNoticeList(date);
+        Date today = DateUtils.beginOfDay(DateUtils.getNowDate());
+        Date afterSevenDays = DateUtils.addDays(today, 7);
+        List<ConsumableNoticeDto> consumableNotices = baseMapper.selectNoticeList(isOverDueNotice ? null : today, afterSevenDays);
         if (consumableNotices.isEmpty()){
             log.warn("当前没有即将到期的耗材");
             return;
@@ -180,10 +186,16 @@ public class EquipmentConsumablesServiceImpl implements IEquipmentConsumablesSer
             ConsumableNoticeDto notice = notices.get(0);
             String email = notice.getChargeUserEmail();
             String chargeNickName = notice.getChargeNickName();
+            //拆分即将过期和已过期的
+            //已过期的
+            List<ConsumableNoticeDto> overDueNotices = StreamUtils.filter(notices, (n -> n.getDueTime().before(today)));
+            //即将过期的
+            List<ConsumableNoticeDto> dueNotices = StreamUtils.filter(notices, (n -> n.getDueTime().after(today)));
             //构建html
             Map<String, Object> root = new HashMap<>();
             root.put("nickName", chargeNickName);
-            root.put("dueConsumables", notices);
+            root.put("overDueNotices", overDueNotices);
+            root.put("dueNotices", dueNotices);
             String content = buildMailContent(root, "consumableDueEmailTemp.ftl");
             if (StringUtils.isEmpty(content)){
                 log.error("邮件内容构建失败，邮件未发送");

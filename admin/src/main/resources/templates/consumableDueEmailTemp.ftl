@@ -28,7 +28,8 @@
 </head>
 <body style="padding: 10px;">
 Dear ${nickName} :
-<p style="padding-left: 30px;">以下设备耗材即将到达使用效期，请及时处理！</p>
+<div style="padding-left: 20px;">
+<p><strong>以下设备耗材即将到达使用效期或已过使用效期，请及时处理！</strong></p>
 <table style="width:833pt">
     <thead>
         <tr style="background:#3498db;">
@@ -43,22 +44,43 @@ Dear ${nickName} :
         </tr>
     </thead>
     <tbody>
-        <#if dueConsumables ?? && (dueConsumables ?size > 0) >
-            <#list dueConsumables as consumable >
-                <tr>
-                    <td>${consumable.consumableNo}</td>
-                    <td>${consumable.consumableName}</td>
-                    <td>${consumable.equipmentName}</td>
-                    <td>${consumable.equipmentNo}</td>
-                    <td>${consumable.equipmentDept}</td>
-                    <td>${consumable.equipmentLocation}</td>
-                    <td>${consumable.activationTime?string("yyyy-MM-dd")}</td>
-                    <td style="background: #e74c3c">${consumable.dueTime?string("yyyy-MM-dd")}</td>
-                </tr>
-            </#list>
-        </#if>
+    <#if overDueNotices ?? && (overDueNotices ?size > 0) >
+        <tr>
+            <th colspan="8" style="background:#f56c6c;text-align: center;">已过期</th>
+        </tr>
+        <#list overDueNotices as consumable >
+            <tr>
+                <td>${consumable.consumableNo}</td>
+                <td>${consumable.consumableName}</td>
+                <td>${consumable.equipmentName}</td>
+                <td>${consumable.equipmentNo}</td>
+                <td>${consumable.equipmentDept}</td>
+                <td>${consumable.equipmentLocation}</td>
+                <td>${consumable.activationTime?string("yyyy-MM-dd")}</td>
+                <td style="background: #e74c3c">${consumable.dueTime?string("yyyy-MM-dd")}</td>
+            </tr>
+        </#list>
+    </#if>
+    <#if dueNotices ?? && (dueNotices ?size > 0) >
+        <tr>
+            <th colspan="8" style="background:#e6a23c;text-align: center;">即将到期</th>
+        </tr>
+        <#list dueNotices as consumable >
+            <tr>
+                <td>${consumable.consumableNo}</td>
+                <td>${consumable.consumableName}</td>
+                <td>${consumable.equipmentName}</td>
+                <td>${consumable.equipmentNo}</td>
+                <td>${consumable.equipmentDept}</td>
+                <td>${consumable.equipmentLocation}</td>
+                <td>${consumable.activationTime?string("yyyy-MM-dd")}</td>
+                <td style="background: #ebb768">${consumable.dueTime?string("yyyy-MM-dd")}</td>
+            </tr>
+        </#list>
+    </#if>
     </tbody>
 </table>
+</div>
 <hr>
 <p style="font-size: 13px;"><i>该邮件为系统自动发送，请勿回复</i></p>
 </body>

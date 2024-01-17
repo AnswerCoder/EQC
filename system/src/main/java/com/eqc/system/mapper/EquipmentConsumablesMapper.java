@@ -18,10 +18,11 @@ import java.util.List;
 public interface EquipmentConsumablesMapper extends BaseMapperPlus<EquipmentConsumablesMapper, EquipmentConsumables, EquipmentConsumablesVo> {
 
     /**
-     * 获取即将到期需要提醒的耗材
-     * @param date 与到期时间相比较，查询出距离到期时间还有一段时间的耗材
+     * 获取即将到期需要提醒的耗材 到期时间处于 beginDate 和 endDate 之间的耗材
+     * @param beginDate
+     * @param endDate
      * @return
      */
-    List<ConsumableNoticeDto> selectNoticeList(@Param("date") Date date);
+    List<ConsumableNoticeDto> selectNoticeList(@Param("beginDate") Date beginDate,@Param("endDate") Date endDate);
 
 }
